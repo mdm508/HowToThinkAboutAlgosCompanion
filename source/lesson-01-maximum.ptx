@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="finding-a-maximum">
+  <title>What does the value remember?</title>
+
+  <objectives>
+    <ul>
+      <li><p>State precisely which part of an input has already been handled.</p></li>
+      <li><p>Use that statement to choose an update and explain why it is correct.</p></li>
+      <li><p>Separate a correctness argument from an argument that the loop finishes.</p></li>
+    </ul>
+  </objectives>
+  <introduction>
+  <p><em>About 20 minutes. Before starting:</em> you should be able to read a Python list, an index, a comparison, and a <c>while</c> loop.</p>
+  </introduction>
+
+  <subsection xml:id="maximum-contract">
+    <title>Look at part of the list</title>
+    <p>Suppose we want the largest value in <c>[6, 2, 9, 4]</c>. We will look at one element at a time, from left to right. The input must be nonempty and contain numbers we can compare. We return a value, not its position, and leave the list unchanged.</p>
+    <p>Imagine that only the first two values have been inspected. The vertical line separates inspected and uninspected elements:</p>
+    <pre>[6, 2 | 9, 4]</pre>
+    <exercise xml:id="max-predict-prefix" label="max-predict-prefix">
+      <title>A claim we can support</title>
+      <statement><p>We keep a variable <c>best</c> equal to <c>6</c>. Which statement describes the guarantee we have at this point?</p></statement>
+      <choices>
+        <choice><statement><p><c>best</c> is the maximum of the whole list.</p></statement><feedback><p>The uninspected part might contain a larger value. In this list it does: 9.</p></feedback></choice>
+        <choice correct="yes"><statement><p><c>best</c> is the maximum of the inspected part.</p></statement><feedback><p>Yes. The inspected values are 6 and 2. The claim leaves room for a larger value to appear later.</p></feedback></choice>
+        <choice><statement><p><c>best</c> is the most recently inspected value.</p></statement><feedback><p>The most recently inspected value is 2, but we retained 6. We remember the largest inspected value, rather than the last one.</p></feedback></choice>
+      </choices>
+    </exercise>
+    <p>Let <c>i</c> be the index of the next element to inspect. At the checkpoint immediately before the loop condition, our promise is:</p>
+    <blockquote><p><c>1 &lt;= i &lt;= len(a)</c>, and <c>best</c> is the maximum of <c>a[0:i]</c>.</p></blockquote>
+    <p>Python's slice <c>a[0:i]</c> includes indices 0 through <c>i - 1</c>; it excludes index <c>i</c>. The promise is called a <em>loop invariant</em>. It describes the state at the checkpoint, rather than listing the actions taken to get there.</p>
+  </subsection>
+
+  <subsection xml:id="maximum-preservation">
+    <title>Make one step preserve the promise</title>
+    <p>Assume the promise holds and there is another element, <c>a[i]</c>. The next inspected part consists of the old inspected part plus that one new value.</p>
+    <exercise xml:id="max-next-update" label="max-next-update">
+      <title>Advance the boundary</title>
+      <statement><p>Which update makes <c>best</c> the maximum of that larger part before we advance <c>i</c>?</p></statement>
+      <choices>
+        <choice><statement><p>Always replace <c>best</c> with <c>a[i]</c>.</p></statement><feedback><p>A smaller new value would erase the earlier maximum. Try inspecting 2 when best is 6.</p></feedback></choice>
+        <choice correct="yes"><statement><p>Replace <c>best</c> only if <c>a[i] &gt; best</c>.</p></statement><feedback><p>If the new value is larger, it becomes the maximum. Otherwise the old maximum is still the maximum. This also handles equal values.</p></feedback></choice>
+        <choice><statement><p>Increment <c>i</c> without comparing values.</p></statement><feedback><p>Moving the boundary claims we have handled another element. If that element is 9, retaining best = 6 breaks the promise.</p></feedback></choice>
+      </choices>
+    </exercise>
+    <p>Then increase <c>i</c> by one. At the next checkpoint, <c>best</c> again describes exactly <c>a[0:i]</c>. To write this without confusing the old index with the new one:</p>
+    <p><md number="no">i_{\text{new}} = i_{\text{old}} + 1,\qquad
+        \text{best}_{\text{new}} = \max(\text{best}_{\text{old}}, a[i_{\text{old}}]).</md></p>
+    <p>We designed this update by asking what must remain true after one step. We did not need to replay every earlier iteration.</p>
+  </subsection>
+
+  <subsection xml:id="maximum-start-finish">
+    <title>Choose a start and an exit</title>
+    <p>How can we establish the promise before the first iteration? Set <c>best = a[0]</c> and <c>i = 1</c>. The inspected part has exactly one element, so its maximum is that element. This is why the nonempty-input assumption matters.</p>
+    <exercise xml:id="max-negative-start" label="max-negative-start">
+      <title>Does zero make a safe starting value?</title>
+      <statement><p>For the input <c>[-8, -3, -5]</c>, would starting with <c>best = 0</c> and updating it only for larger values satisfy our promise?</p></statement>
+      <choices>
+        <choice><statement><p>Yes; zero is a convenient default.</p></statement><feedback><p>All three values are smaller than zero. The algorithm would retain 0, which is not even in the list.</p></feedback></choice>
+        <choice correct="yes"><statement><p>No; the starting value must satisfy the promise for the inspected part.</p></statement><feedback><p>Starting with the first element gives a maximum that actually belongs to the inspected part, even when every value is negative.</p></feedback></choice>
+      </choices>
+    </exercise>
+    <p>Continue while <c>i &lt; len(a)</c>. On exit, the invariant's bound and the false condition together imply <c>i == len(a)</c>. The inspected part is now the whole list, so the invariant gives the required result.</p>
+    <p>For termination, count the uninspected elements: <c>len(a) - i</c>. Every iteration reduces this nonnegative integer by one. The loop therefore finishes. Under a constant-time comparison model it uses <m>n-1</m> comparisons, takes <m>\Theta(n)</m> time, and uses <m>\Theta(1)</m> extra space.</p>
+  </subsection>
+
+  <subsection xml:id="maximum-experiment">
+    <title>Predict, then run</title>
+    <p>Before running the program, write down <c>(i, best)</c> at each checkpoint for <c>[6, 2, 9, 4]</c>. Include the checkpoint at which the condition becomes false. Then run it and compare.</p>
+    <program xml:id="max-trace-code" label="max-trace-code" interactive="activecode" language="python"><code><![CDATA[def maximum(a):
+    if not a:
+        raise ValueError("maximum requires a nonempty list")
+    best = a[0]
+    i = 1
+    print("checkpoint:", i, best)
+    while i < len(a):
+        if a[i] > best:
+            best = a[i]
+        i += 1
+        print("checkpoint:", i, best)
+    return best
+
+print("maximum:", maximum([6, 2, 9, 4]))
+]]></code></program>
+    <p>Change the input to a single value, all negative values, and a list containing equal maxima. For each, explain why the same promise still works. Tests help us find mistakes; the invariant explains why the result holds for every input meeting our assumptions.</p>
+    <exercise xml:id="max-explain-correctness" label="max-explain-correctness">
+      <title>Explain it to someone else</title>
+      <statement><p>A classmate says, <q>The loop works because it checks every number.</q> Make that explanation precise: what does <c>best</c> mean at the checkpoint, why does one step preserve that meaning, and what changes when the loop exits?</p></statement>
+      <hint><p>Refer to the inspected part. Merely checking every number would not help if the algorithm forgot the largest value.</p></hint>
+      <solution><p>At each checkpoint, best is the maximum of the nonempty inspected prefix a[0:i]. Comparing the next value with best preserves the maximum when the prefix grows. At exit i equals len(a), so that prefix is the entire input. The remaining-element count decreases, which separately proves termination.</p></solution>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="maximum-transfer">
+    <title>Carry the reasoning to a new task</title>
+    <exercise xml:id="count-positive-transfer" label="count-positive-transfer">
+      <title>Count positive values</title>
+      <statement><p>Now count how many entries in a list are strictly positive. Empty lists are allowed. Propose a checkpoint invariant, starting values, one iteration, and an exit condition. Explain your choices before writing code. Where does zero belong?</p></statement>
+      <hint><p>Use the same inspected/uninspected boundary. What should count remember about a[0:i]? What is the correct count when nothing has been inspected?</p></hint>
+      <solution><p>At the checkpoint, 0 &lt;= i &lt;= len(a), and count is the number of entries greater than zero in a[0:i]. Start with i = 0 and count = 0. While i &lt; len(a), add one only when a[i] &gt; 0, then increment i. At exit the prefix is the whole list. The quantity len(a) - i decreases to zero. Zero is not positive.</p></solution>
+    </exercise>
+    <p>Before moving on, you should be able to explain three obligations: establish the invariant, preserve it in one iteration, and use it with the exit condition to obtain the postcondition. Add a separate decreasing quantity to prove termination.</p>
+    <p><em>Companion references:</em> Jeff Edmonds, <pubtitle>How to Think About Algorithms</pubtitle>, the opening treatment of iterative algorithms; his <url href="https://www.youtube.com/watch?v=cnibtOFooFg">Actions vs. Assertions lecture</url>; and the <url href="https://www.eecs.yorku.ca/~jeff/courses/2101/notes/HowToThinkAboutAlg~LoopInvariants.pdf">loop-invariant handout</url>.</p>
+  </subsection>
+</section>

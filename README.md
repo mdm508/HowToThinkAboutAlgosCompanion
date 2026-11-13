@@ -1,29 +1,64 @@
-# PreTeXt Codespace
+# Thinking About Algorithms — interactive companion
 
-Use this template repository to quickly start a new [PreTeXt](https://pretextbook.org) project entirely in the cloud, using GitHub Codespaces.  
+A PreTeXt book for Runestone, built around short investigations accompanying Jeff Edmonds's *How to Think About Algorithms*. The first lesson is a complete draft about finding a maximum using a loop invariant. It includes three multiple-choice checkpoints with feedback, an editable Python ActiveCode program, and two explanation/transfer exercises.
 
-## Instructions
+## Edit in VS Code
 
-Look for the green button at the very top right of this page.  The button should say `Use this template` (if not make sure you are logged in to GitHub). 
-  
-Click on the button and select "Create a new repository".  On the next page, give your project a name, select public or private (this can be changed later), and click the "Create repository from template" button.
+The initial local checkout is `/Users/m/Developer/HowToThinkAboutAlgosCompanion`.
 
-You now have a GitHub repository saved in your account.  You can come back to that page any time you want to work on your project (note the URL or else find it in the list of your repositories when you log in to GitHub).
+1. Edit `source/lesson-01-maximum.ptx` for lesson text and activities.
+2. Press **Cmd+Shift+B** to build the web preview.
+3. Choose **Terminal → Run Task → Book: preview (build first)** to serve it locally. The lesson is at `http://localhost:8765/output/web/finding-a-maximum.html`.
+4. After edits, build again, then refresh the preview. Saving XML alone does not update the HTML.
 
-To start work on your project, go to the green button at the top of *your* repository's page, which will say `<> Code`.  
+The PreTeXt and Live Preview extensions are recommended in `.vscode/extensions.json`. Local VS Code settings select `.venv/bin/python`. Portable build, validation and preview tasks are tracked in `.vscode/tasks.json`.
 
-1. Click on this button.
-2. Click on the tab that says "Codespaces."
-3. Click "Create codespace on main."
+### Setup on another machine
 
-This will open a new tab with a browser version of VS Code including everything set up to start working.  (When you first create a codespace for a project, it may take 5-10 minutes; when you restart a codespace it will be much faster).  The first thing you should do is create a new PreTeXT project.
+Python 3.13 was used for the initial setup. Install Node.js/npm for the theme and optional Salve validation engine, then:
 
-### Creating a New Project
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+pretext build web
+pretext view web --port 8765
+```
 
-1. Open the command palette by hitting `Ctrl+Shift+P` (or `F1`) and start typing "pretext new".  You will see a command titled "PreTeXt: New Project".
-2. Hit `Enter` and select what sort of project you would like to create.  
-3. Select the current suggested folder for the location of your project.
+For the PreTeXt extension, select this environment through `pretext-tools.pythonPath` if it does not detect it. The command tasks call the environment directly and do not require terminal activation. Internet access is needed for first-build dependencies and browser libraries. Student Python examples run in the browser through Runestone's libraries.
 
-The window should reload and you will have your project there.  This readme will be gone, but you will get a new one with some new hints.
+## Project map
 
-Next time you want to work on your book, return to your newly created repository, go to the green `<> Code` button, and select the codespace you previously created.  If you don't see that codespace (perhaps you deleted it to save space), you can always create a new codespace.
+| File | Purpose |
+| --- | --- |
+| `source/main.ptx` | Book structure and introduction |
+| `source/lesson-01-maximum.ptx` | First lesson: text, questions, feedback and runnable code |
+| `source/docinfo.ptx` | Book identifier and catalogue description |
+| `publication/publication.ptx` | Ordinary HTML preview settings |
+| `publication/runestone.ptx` | Runestone-specific settings |
+| `project.ptx` | Web and Runestone build targets |
+| `docs/lesson-review.md` | Review prompts and revision record |
+| `docs/sources.md` | References and authoring documentation |
+
+Edit the source, not generated `output/` or `published/` files. Preserve question `label` and `xml:id` values after students begin using a course; Runestone associates activity data with exercise identities.
+
+## Review workflow
+
+Read one draft or excerpt, give feedback in chat or make direct edits, then revise and check it. Review accuracy, sequence, accessibility, opportunities to reason, and evidence of learning. The draft has not yet been trialled with students. See `docs/lesson-review.md` for a place to keep decisions.
+
+## Checks
+
+```sh
+.venv/bin/pretext validate web --engine salve
+.venv/bin/python scripts/check_lesson.py
+.venv/bin/pretext build web
+.venv/bin/pretext build runestone
+```
+
+Salve installs its validator via npm on first use. Multiple-choice elements are classified by PreTeXt as experimental vocabulary even when validation succeeds. Local HTML supports trying the activities; course enrolment, instructor reporting and server-side progress tracking require Runestone hosting. Explanation exercises should be discussed or assessed by a person rather than treated as automatically scored proofs.
+
+## Publish on Runestone
+
+The `runestone` target creates `output/runestone/`. Building it does not publish a course. Runestone administrators must first register the public GitHub repository and give the author access; the author interface then pulls, builds and publishes it. See the [official publishing guide](https://runestone.academy/ns/books/published/pretextguide/sec-publishing-to-runestone-academy.html). Registration has not been requested as part of this draft.
+
+The inherited MIT license for the starter is preserved. Lesson material is newly written; see `docs/sources.md` for attribution and scope.

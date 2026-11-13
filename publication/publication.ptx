@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publication>
+  <common>
+    <chunking level="2" />
+    <exercise-inline statement="yes" hint="yes" answer="no" solution="yes" />
+  </common>
+  <html>
+    <css theme="default-modern" />
+    <index-page ref="start-here" />
+  </html>
+</publication>

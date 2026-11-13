@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Book: build preview",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/pretext",
+      "args": ["build", "web"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "group": {"kind": "build", "isDefault": true},
+      "problemMatcher": []
+    },
+    {
+      "label": "Book: preview (build first)",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/pretext",
+      "args": ["view", "web", "--port", "8765"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "dependsOn": "Book: build preview",
+      "problemMatcher": []
+    },
+    {
+      "label": "Book: validate source",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/pretext",
+      "args": ["validate", "web", "--engine", "salve"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    },
+    {
+      "label": "Book: build Runestone package",
+      "type": "process",
+      "command": "${workspaceFolder}/.venv/bin/pretext",
+      "args": ["build", "runestone"],
+      "options": {"cwd": "${workspaceFolder}"},
+      "problemMatcher": []
+    }
+  ]
+}

@@ -102,3 +102,14 @@ venv/
 # Don't track deprecated workflows
 .github/workflows/deploy.yml
 .github/workflows/test-build.yml
+
+# Local environment and generated book files
+.venv/
+source/generated/
+__pycache__/
+
+# Share portable authoring tasks
+!.vscode/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/extensions.json

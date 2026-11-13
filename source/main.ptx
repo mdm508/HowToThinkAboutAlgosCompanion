@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext xml:lang="en-US" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="docinfo.ptx" />
+  <book xml:id="algorithms-companion">
+    <title>Thinking About Algorithms</title>
+    <subtitle>An interactive companion to Jeff Edmonds's How to Think About Algorithms</subtitle>
+    <frontmatter xml:id="frontmatter">
+      <bibinfo><date>Working draft</date></bibinfo>
+      <titlepage><titlepage-items /></titlepage>
+      <preface xml:id="start-here">
+        <title>Start here</title>
+        <p>Design an algorithm, explain why it works, and try to break your explanation. This companion adds short investigations and executable examples to your reading of Jeff Edmonds's <pubtitle>How to Think About Algorithms</pubtitle>.</p>
+        <p>Begin with <xref ref="finding-a-maximum" />. You will use a familiar problem to learn what a loop invariant promises and how that promise helps you design code.</p>
+        <p>Read a question and commit to a prediction before checking the feedback or running the program. You can work alone or compare explanations with a partner.</p>
+        <p>This is an independent companion. The explanations and activities here are newly written; the original book and lectures remain the primary references.</p>
+      </preface>
+    </frontmatter>
+    <chapter xml:id="loop-invariants">
+      <title>A promise that survives a loop</title>
+      <introduction>
+        <p>A long execution can be hard to follow. Instead, describe what one iteration must preserve. We will start with finding a maximum and then use the same reasoning on a different problem.</p>
+      </introduction>
+      <xi:include href="lesson-01-maximum.ptx" />
+    </chapter>
+  </book>
+</pretext>

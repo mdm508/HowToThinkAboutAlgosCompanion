@@ -67,9 +67,29 @@
   </subsection>
 
   <subsection xml:id="dfa-languages" label="dfa-languages">
-    <title>Choose a collection of strings</title>
-    <p>Now use the binary alphabet <m>\Sigma=\{0,1\}</m>. We might want to recognize only strings ending in <c>1</c>. Then <c>1</c>, <c>01</c>, and <c>101</c> qualify; <c>0</c> and <c>10</c> do not.</p>
-    <p>A <em>language</em> is a set of strings over an alphabet. Here our language contains exactly the binary strings ending in <c>1</c>. In computer science, a language can be defined by a precise rule; it need not be a spoken language.</p>
+    <title>From an alphabet to a language</title>
+    <p>An alphabet gives us the pieces. A <em>language</em> chooses which sequences made from those pieces belong. More precisely, a language is a set of strings over an alphabet.</p>
+    <p>Start with the biggest possible language over <m>\{a,b\}</m>: include <em>every finite string</em> we can make from a and b.</p>
+    <p><md number="no">L_{\mathrm{all}}=\{a,b\}^*=\{\varepsilon,a,b,aa,ab,ba,bb,aaa,aab,\ldots\}.</md></p>
+    <paragraphs xml:id="dfa-all-strings-key">
+      <title>Read it in pieces</title>
+      <tabular width="100%">
+        <col width="25%" /><col width="75%" />
+        <row header="yes"><cell>Notation</cell><cell>Meaning</cell></row>
+        <row><cell><m>L_{\mathrm{all}}</m></cell><cell>Our name for this language.</cell></row>
+        <row><cell><m>\{a,b\}</m></cell><cell>The allowed symbols: a and b.</cell></row>
+        <row><cell><m>\{a,b\}^*</m></cell><cell>All finite sequences of those symbols. The star allows any finite length, including zero.</cell></row>
+        <row><cell><m>\alpha\in L_{\mathrm{all}}</m></cell><cell>The string named <m>\alpha</m> (alpha) belongs to our language.</cell></row>
+      </tabular>
+    </paragraphs>
+    <p>This set is infinite: whatever length you reach, you can make a longer string by adding another a or b. Each individual string is still finite. The dots mean that the list continues; they are not symbols inside one of the strings.</p>
+    <p>More generally, <m>\Sigma^*</m> means all finite strings over the alphabet <m>\Sigma</m>. A language may contain all of them, as <m>L_{\mathrm{all}}</m> does, or select only some of them using a rule.</p>
+    <paragraphs xml:id="dfa-judge-tape">
+      <title>You are the judge</title>
+      <p>Someone hands you a tape with a string written on it. Read the symbols from left to right. When the tape ends, decide: <q>Does the string I just read belong to our language?</q> Answer <em>accept</em> if it belongs and <em>reject</em> if it does not.</p>
+      <p>For <m>L_{\mathrm{all}}</m>, every tape made only from a and b is accepted, including a tape with no symbols. We have not imposed any further restriction. The decision gets more interesting when we choose a smaller language.</p>
+    </paragraphs>
+    <p>Now switch to the binary alphabet <m>\Sigma=\{0,1\}</m>. Choose a language containing only strings ending in <c>1</c>. Then <c>1</c>, <c>01</c>, and <c>101</c> belong; <c>0</c> and <c>10</c> do not. Our judge must distinguish the strings that meet this rule from those that do not.</p>
     <figure xml:id="dfa-language-picture">
       <caption>A language selects strings from all the possible strings over an alphabet.</caption>
       <image source="diagrams/dfa-language.svg" width="100%">
@@ -77,7 +97,6 @@
         <description><p>A rectangle of binary strings contains a smaller region for strings ending in 1. Inside are 1, 01, and 101. Outside that region are 0, 10, and the empty string. These are sample strings, not a complete listing.</p></description>
       </image>
     </figure>
-    <p>We write <m>\Sigma^*</m> for <em>all finite strings</em> over <m>\Sigma</m>, including <m>\varepsilon</m>. The star allows any finite length. When <m>\Sigma=\{0,1\}</m>, there are infinitely many possible finite strings, even though the alphabet has just two symbols.</p>
     <p>Our chosen language can now be written:</p>
     <p><md number="no">L=\{w\in\Sigma^*\mid w\text{ ends in }1\}.</md></p>
     <p>Read it in pieces:

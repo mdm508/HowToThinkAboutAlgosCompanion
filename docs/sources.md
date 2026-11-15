@@ -25,3 +25,5 @@ Reading connection: second edition, section 2.2, page 35, opening material throu
 Review audience: high-school students without prior automata or set-theory knowledge. The 20-minute estimate is provisional. The opening introduces prefix explicitly; the full DFA tuple and regular-expression syntax are deferred. The lesson is still a draft awaiting teacher review and student trial.
 
 Revision from teacher review: move the empty-string definition into the first string discussion, replace the symbol/string classification question with a select-all alphabet-membership check, and add student-generated examples and a nonexample. The empty string is explicitly distinguished from its notation, zero, and a space.
+
+Revision from teacher review: introduce the largest language over {a,b}, listing its first strings and distinguishing an infinite collection from the finite length of each string. Add a compact notation key and the judge-and-tape membership analogy before narrowing to the binary ends-in-1 language. Keep the alphabets explicit when switching examples.

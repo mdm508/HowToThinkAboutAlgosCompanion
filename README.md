@@ -1,6 +1,6 @@
 # Thinking About Algorithms — interactive companion
 
-A PreTeXt book for Runestone, built around short investigations accompanying Jeff Edmonds's *How to Think About Algorithms*. The high-school reading companion begins with section 2.2, page 35: alphabets, strings, languages, notation, and finite memory. It includes two SVG diagrams, two matching activities, five multiple-choice/select-all checks, and a written-response prompt. The earlier maximum-finding draft is retained.
+A PreTeXt book for Runestone, built around short investigations accompanying Jeff Edmonds's *How to Think About Algorithms*. The high-school reading companion begins with section 2.2, page 35: alphabets, strings, languages, notation, and finite memory. It includes two SVG diagrams, two matching activities, five multiple-choice/select-all checks, and two written-response prompts. The earlier maximum-finding draft is retained.
 
 ## Edit in VS Code
 

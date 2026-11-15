@@ -29,15 +29,26 @@
         <match><premise order="1"><m>\{0,1\}</m></premise><response order="2">Only the symbols 0 and 1</response></match>
       </cardsort>
     </exercise>
-    <p>A <em>string</em> is a finite sequence of symbols from an alphabet. Over <m>\{a,b\}</m>, the strings <c>a</c>, <c>abba</c>, and <c>bbb</c> are all allowed. They do not have to be English words. Order and repetition matter: <c>ab</c> and <c>ba</c> are different strings.</p>
-    <exercise xml:id="dfa-symbol-or-string" label="dfa-symbol-or-string">
-      <title>A symbol or a string?</title>
-      <statement><p>Let <m>\Sigma=\{a,b\}</m>. Which statement about <c>abba</c> is correct?</p></statement>
-      <choices>
-        <choice><statement><p>It is one of the two symbols listed in <m>\Sigma</m>.</p></statement><feedback><p>The listed symbols are a and b. The four-symbol sequence abba is not one of those individual symbols.</p></feedback></choice>
-        <choice correct="yes"><statement><p>It is a string made from symbols in <m>\Sigma</m>.</p></statement><feedback><p>Yes. Every position contains an allowed symbol, and symbols may repeat.</p></feedback></choice>
-        <choice><statement><p>It is invalid because the alphabet lists a before b.</p></statement><feedback><p>A set of allowed symbols does not impose an order on a string. Both abba and baab use only a and b.</p></feedback></choice>
+    <p>A <em>string</em> is a finite sequence of symbols. A string is <em>over an alphabet</em> when every symbol it contains belongs to that alphabet. Over <m>\{a,b\}</m>, the strings <c>a</c>, <c>abba</c>, and <c>bbb</c> are all allowed. You may repeat symbols, and you do not have to use every symbol in the alphabet. Order matters: <c>ab</c> and <c>ba</c> are different strings.</p>
+    <p>There is also a string with no symbols at all: the <em>empty string</em>, written <m>\varepsilon</m> (epsilon). It has length zero. It is a string over every alphabet because it contains no disallowed symbols. The notation <m>\varepsilon</m> names this empty string; it does not mean that a Greek letter occurs in the string. It is different from <c>0</c>, which has one symbol, and from a space character.</p>
+    <exercise xml:id="dfa-symbol-or-string" label="dfa-strings-over-ab">
+      <title>Which strings use only our alphabet?</title>
+      <statement><p>Let <m>\Sigma=\{a,b\}</m>. Select every string over this alphabet. Check every symbol in each choice.</p></statement>
+      <choices multiple-correct="yes">
+        <choice correct="yes"><statement><p><c>a</c></p></statement><feedback><p>A one-symbol string is allowed. It does not have to contain both a and b.</p></feedback></choice>
+        <choice correct="yes"><statement><p><c>abba</c></p></statement><feedback><p>All four symbols belong to the alphabet. Repetition is allowed.</p></feedback></choice>
+        <choice correct="yes"><statement><p><c>bbbb</c></p></statement><feedback><p>Every symbol is b, which is allowed. The string does not have to use a.</p></feedback></choice>
+        <choice><statement><p><c>abc</c></p></statement><feedback><p>The c is not in the alphabet. One disallowed symbol is enough to make the whole string fail this check.</p></feedback></choice>
+        <choice><statement><p><c>ab1</c></p></statement><feedback><p>The symbol 1 is not in this alphabet, even though a and b are.</p></feedback></choice>
+        <choice correct="yes"><statement><p><m>\varepsilon</m> (the empty string)</p></statement><feedback><p>There are no symbols to violate the alphabet's restriction. The empty string is therefore a string over this alphabet too.</p></feedback></choice>
       </choices>
+    </exercise>
+    <exercise xml:id="dfa-invent-strings" label="dfa-invent-strings">
+      <title>Make your own examples</title>
+      <statement><p>Using the alphabet <m>\{a,b\}</m>, invent two different strings of length four. Then invent a string of length four that is <em>not</em> over this alphabet. Explain which symbol makes your third example fail.</p></statement>
+      <response />
+      <hint><p>For your first two strings, fill each of four positions with a or b. For the third, include at least one different symbol.</p></hint>
+      <solution><p>Many answers work. For example, aaaa and baba are different four-symbol strings over the alphabet. The string baac has length four but is not over this alphabet, because c is not allowed.</p></solution>
     </exercise>
   </subsection>
 
@@ -52,7 +63,6 @@
         <description><p>A rectangle of binary strings contains a smaller region for strings ending in 1. Inside are 1, 01, and 101. Outside that region are 0, 10, and the empty string. These are sample strings, not a complete listing.</p></description>
       </image>
     </figure>
-    <p>One special string contains no symbols at all. It is called the <em>empty string</em>, written <m>\varepsilon</m> (epsilon). It has length zero. It is different from <c>0</c>, which has one symbol, and from a space character.</p>
     <p>We write <m>\Sigma^*</m> for <em>all finite strings</em> over <m>\Sigma</m>, including <m>\varepsilon</m>. The star allows any finite length. When <m>\Sigma=\{0,1\}</m>, there are infinitely many possible finite strings, even though the alphabet has just two symbols.</p>
     <p>Our chosen language can now be written:</p>
     <p><md number="no">L=\{w\in\Sigma^*\mid w\text{ ends in }1\}.</md></p>

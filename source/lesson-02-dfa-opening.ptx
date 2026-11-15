@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section xml:id="dfa-opening" label="dfa-opening">
+  <title>Reading strings, remembering what matters</title>
+  <objectives>
+    <ul>
+      <li><p>Distinguish a symbol, an alphabet, a string, and a language.</p></li>
+      <li><p>Translate a simple language description between English and set notation.</p></li>
+      <li><p>Explain what it means to recognize a language and what restricts a DFA's memory.</p></li>
+    </ul>
+  </objectives>
+  <introduction>
+    <p><em>Reading connection:</em> Jeff Edmonds, <pubtitle>How to Think About Algorithms</pubtitle>, second edition, section 2.2, page 35: the opening paragraphs, Applications, and Features. Stop before Example 2.2.1. This companion introduces the vocabulary you will meet there; you do not need to know set theory or automata beforehand.</p>
+    <p><em>Allow about 20 minutes.</em> Work through the questions before checking feedback. At the end, return to the assigned passage and see which sentences you can now explain.</p>
+  </introduction>
+
+  <subsection xml:id="dfa-symbols" label="dfa-symbols">
+    <title>Start with the symbols</title>
+    <p>Imagine a machine that reads a message one character at a time. Before deciding what it should do, we need to say which symbols may appear.</p>
+    <p>You already know one alphabet: the English letters. We can list its lowercase letters inside braces:</p>
+    <p><md number="no">\Sigma = \{a,b,c,\ldots,z\}.</md></p>
+    <p>The braces mean <q>the set containing these items.</q> The dots stand for the intervening letters. The Greek letter <m>\Sigma</m> (pronounced <q>sigma</q>) is a name for this set. An <em>alphabet</em> is a finite set of allowed symbols. It need not be a human language's alphabet.</p>
+    <exercise xml:id="dfa-match-alphabets" label="dfa-match-alphabets">
+      <title>Match the alphabet to its description</title>
+      <statement><p>Pair each set with the symbols it allows.</p></statement>
+      <feedback><p>Read the items inside the braces. The braces group allowed symbols; they do not prescribe the order in which a message must use them.</p></feedback>
+      <cardsort>
+        <match><premise order="2"><m>\{a,b,c,\ldots,z\}</m></premise><response order="3">The 26 lowercase English letters</response></match>
+        <match><premise order="3"><m>\{a,b\}</m></premise><response order="1">Only the letters a and b</response></match>
+        <match><premise order="1"><m>\{0,1\}</m></premise><response order="2">Only the symbols 0 and 1</response></match>
+      </cardsort>
+    </exercise>
+    <p>A <em>string</em> is a finite sequence of symbols from an alphabet. Over <m>\{a,b\}</m>, the strings <c>a</c>, <c>abba</c>, and <c>bbb</c> are all allowed. They do not have to be English words. Order and repetition matter: <c>ab</c> and <c>ba</c> are different strings.</p>
+    <exercise xml:id="dfa-symbol-or-string" label="dfa-symbol-or-string">
+      <title>A symbol or a string?</title>
+      <statement><p>Let <m>\Sigma=\{a,b\}</m>. Which statement about <c>abba</c> is correct?</p></statement>
+      <choices>
+        <choice><statement><p>It is one of the two symbols listed in <m>\Sigma</m>.</p></statement><feedback><p>The listed symbols are a and b. The four-symbol sequence abba is not one of those individual symbols.</p></feedback></choice>
+        <choice correct="yes"><statement><p>It is a string made from symbols in <m>\Sigma</m>.</p></statement><feedback><p>Yes. Every position contains an allowed symbol, and symbols may repeat.</p></feedback></choice>
+        <choice><statement><p>It is invalid because the alphabet lists a before b.</p></statement><feedback><p>A set of allowed symbols does not impose an order on a string. Both abba and baab use only a and b.</p></feedback></choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="dfa-languages" label="dfa-languages">
+    <title>Choose a collection of strings</title>
+    <p>Now use the binary alphabet <m>\Sigma=\{0,1\}</m>. We might want to recognize only strings ending in <c>1</c>. Then <c>1</c>, <c>01</c>, and <c>101</c> qualify; <c>0</c> and <c>10</c> do not.</p>
+    <p>A <em>language</em> is a set of strings over an alphabet. Here our language contains exactly the binary strings ending in <c>1</c>. In computer science, a language can be defined by a precise rule; it need not be a spoken language.</p>
+    <figure xml:id="dfa-language-picture">
+      <caption>A language selects strings from all the possible strings over an alphabet.</caption>
+      <image source="diagrams/dfa-language.svg" width="100%">
+        <shortdescription>The language of binary strings ending in 1 sits inside the collection of all binary strings.</shortdescription>
+        <description><p>A rectangle of binary strings contains a smaller region for strings ending in 1. Inside are 1, 01, and 101. Outside that region are 0, 10, and the empty string. These are sample strings, not a complete listing.</p></description>
+      </image>
+    </figure>
+    <p>One special string contains no symbols at all. It is called the <em>empty string</em>, written <m>\varepsilon</m> (epsilon). It has length zero. It is different from <c>0</c>, which has one symbol, and from a space character.</p>
+    <p>We write <m>\Sigma^*</m> for <em>all finite strings</em> over <m>\Sigma</m>, including <m>\varepsilon</m>. The star allows any finite length. When <m>\Sigma=\{0,1\}</m>, there are infinitely many possible finite strings, even though the alphabet has just two symbols.</p>
+    <p>Our chosen language can now be written:</p>
+    <p><md number="no">L=\{w\in\Sigma^*\mid w\text{ ends in }1\}.</md></p>
+    <p>Read it in pieces:
+    <ul>
+      <li><p><m>w</m> names a string we are considering.</p></li>
+      <li><p><m>w\in\Sigma^*</m> says that <m>w</m> belongs to the set of strings over our alphabet.</p></li>
+      <li><p>The bar <m>\mid</m> means <q>such that.</q> What follows is the condition for membership.</p></li>
+    </ul></p>
+    <p>Altogether: <q>The set of strings over our alphabet such that the string ends in 1.</q></p>
+    <exercise xml:id="dfa-language-members" label="dfa-language-members">
+      <title>Which strings belong?</title>
+      <statement><p>For <m>\Sigma=\{0,1\}</m> and <m>L=\{w\in\Sigma^*\mid w\text{ ends in }1\}</m>, select every member of <m>L</m>.</p></statement>
+      <choices multiple-correct="yes">
+        <choice correct="yes"><statement><p><c>001</c></p></statement><feedback><p>Its last symbol is 1, so it belongs.</p></feedback></choice>
+        <choice><statement><p><c>110</c></p></statement><feedback><p>It contains 1s, but its last symbol is 0. The rule says ends in 1.</p></feedback></choice>
+        <choice correct="yes"><statement><p><c>1</c></p></statement><feedback><p>A one-symbol string can end in 1. There is no minimum length of two.</p></feedback></choice>
+        <choice><statement><p><m>\varepsilon</m></p></statement><feedback><p>The empty string belongs to the set of all binary strings, but not to this language: it has no last symbol.</p></feedback></choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="dfa-reading-notation" label="dfa-reading-notation">
+    <title>Similar words, different languages</title>
+    <p>Notation is useful only if we can say what it means. In the next question, all three sets use the same alphabet. Pay attention to the condition after the bar.</p>
+    <exercise xml:id="dfa-match-languages" label="dfa-match-languages">
+      <title>Translate the condition</title>
+      <statement><p>Match each expression to its English description.</p></statement>
+      <feedback><p>Ends in 1 checks the final position. Contains a 1 permits a 1 anywhere. Exactly one 1 restricts how many 1s occur. These are different rules, even though some strings satisfy several of them.</p></feedback>
+      <cardsort>
+        <match><premise order="2"><m>\{w\in\{0,1\}^*\mid w\text{ ends in }1\}</m></premise><response order="3">Binary strings whose last symbol is 1</response></match>
+        <match><premise order="3"><m>\{w\in\{0,1\}^*\mid w\text{ contains a }1\}</m></premise><response order="1">Binary strings with at least one 1 anywhere</response></match>
+        <match><premise order="1"><m>\{w\in\{0,1\}^*\mid w\text{ contains exactly one }1\}</m></premise><response order="2">Binary strings with one 1 and no other 1s</response></match>
+      </cardsort>
+    </exercise>
+    <exercise xml:id="dfa-distinguish-rules" label="dfa-distinguish-rules">
+      <title>Show that the rules differ</title>
+      <statement><p>Give a binary string that contains a 1 but does not end in 1. Explain why it meets the first condition and fails the second.</p></statement>
+      <response />
+      <hint><p>Try a two-symbol string. Where could you put the 1 so it is present but not last?</p></hint>
+      <solution><p>For example, 10 contains a 1 in its first position, but its last symbol is 0. This one string shows that the two descriptions do not define the same language. Other answers may work too.</p></solution>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="dfa-recognizing" label="dfa-recognizing">
+    <title>What does the machine have to get right?</title>
+    <p>To <em>recognize</em> a language, a machine must accept every string in the language and reject every string outside it, among strings over the specified alphabet. This is a yes-or-no membership question, not a request to print every possible string.</p>
+    <exercise xml:id="dfa-always-accept" label="dfa-always-accept">
+      <title>A machine that always says yes</title>
+      <statement><p>For the language of binary strings ending in 1, a student proposes a machine that accepts every input. They say, <q>It accepts every string in our language, so it works.</q> What is missing?</p></statement>
+      <choices>
+        <choice correct="yes"><statement><p>It must also reject strings outside the language, such as <c>10</c>.</p></statement><feedback><p>Yes. Correct recognition requires both accepting members and rejecting nonmembers.</p></feedback></choice>
+        <choice><statement><p>It must remember a list of every accepted string.</p></statement><feedback><p>It needs to make a membership decision. It does not need to keep a catalogue of its earlier inputs.</p></feedback></choice>
+        <choice><statement><p>Nothing; accepting members is the entire requirement.</p></statement><feedback><p>Then the machine would answer yes to 0 and 10 too. Those are not members, so those answers would be wrong.</p></feedback></choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="dfa-finite-memory" label="dfa-finite-memory">
+    <title>Read once, with limited memory</title>
+    <p>Return to the question <q>Does this string end in 1?</q> Imagine that the symbols arrive one at a time and disappear after you read them. You cannot look back. The part of the string read so far is called a <em>prefix</em>. What would you need to remember about that prefix?</p>
+    <figure xml:id="dfa-stream-picture">
+      <caption>Earlier input disappears. The machine keeps a summary for the next step.</caption>
+      <image source="diagrams/dfa-stream.svg" width="100%">
+        <shortdescription>An input stream feeds a fixed memory summary; previously read symbols cannot be reread.</shortdescription>
+        <description><p>The prefix 101 has already been read. The next symbol is 0, followed by another 1. An arrow leads from the next symbol into a fixed memory box currently recording last symbol was 1. The previously read symbols cannot be reread.</p></description>
+      </image>
+    </figure>
+    <exercise xml:id="dfa-what-to-remember" label="dfa-what-to-remember">
+      <title>Enough information for the decision</title>
+      <statement><p>For this particular language, which summary lets us update after each symbol and decide correctly at the end, while using only a fixed finite amount of memory?</p></statement>
+      <choices>
+        <choice><statement><p>Whether any 1 has appeared.</p></statement><feedback><p>That summary is true after both 1 and 10, but only the first string ends in 1. We need information about the end of the prefix.</p></feedback></choice>
+        <choice correct="yes"><statement><p>Whether the prefix read so far ends in 1, initially false.</p></statement><feedback><p>Yes. After reading 1 the summary becomes true; after reading 0 it becomes false. Before any input, false correctly handles the empty string. Only two memory configurations are needed.</p></feedback></choice>
+        <choice><statement><p>The complete string read so far.</p></statement><feedback><p>That would provide enough information, but it would not be the limited summary we are looking for: its storage grows with the input.</p></feedback></choice>
+      </choices>
+    </exercise>
+    <p>This illustrates the three features in Edmonds's opening:
+    <ul>
+      <li><p><em>Input stream:</em> symbols arrive in sequence.</p></li>
+      <li><p><em>Read once:</em> a previous symbol cannot be requested again.</p></li>
+      <li><p><em>Bounded memory:</em> the machine has a fixed finite collection of possible memory configurations, however long the input becomes.</p></li>
+    </ul></p>
+    <p>Each memory configuration is called a <em>state</em>. A <em>deterministic finite automaton</em>, or <em>DFA</em>, has finitely many states. Its current state and the next symbol determine exactly one next state. At the end of the string, the state determines acceptance or rejection. <q>Finite</q> restricts its possible states; it does not impose a maximum input length.</p>
+    <exercise xml:id="dfa-counter-memory" label="dfa-counter-memory">
+      <title>Does one variable guarantee finite memory?</title>
+      <statement><p>A machine stores the exact number of symbols it has read, with no upper limit. Is that counter finite-state just because it uses only one variable?</p></statement>
+      <choices>
+        <choice><statement><p>Yes; a single variable is a fixed amount of memory.</p></statement><feedback><p>Count the possible values, not the variable names. An unbounded exact counter can take infinitely many values and needs more bits as its value grows.</p></feedback></choice>
+        <choice correct="yes"><statement><p>No; its possible counter values are unbounded.</p></statement><feedback><p>Correct. A counter restricted to a fixed range would be different. Tracking only even versus odd, for example, requires two configurations.</p></feedback></choice>
+      </choices>
+    </exercise>
+    <p>A language is called <em>regular</em> if some DFA recognizes it. We have not yet established which other languages are regular. Later we will investigate what finite memory can and cannot do. You do not need regular-expression syntax for this reading.</p>
+    <p>A connection to loop invariants: a state can summarize what is true about the prefix already read. Our summary here says whether that prefix ends in 1. A loop invariant is a reasoning tool; having one does not by itself make an algorithm finite-state.</p>
+  </subsection>
+
+  <subsection xml:id="dfa-return-to-reading" label="dfa-return-to-reading">
+    <title>Return to page 35</title>
+    <p>Reread the opening of section 2.2, stopping before Example 2.2.1. Can you now explain <q>language</q>, <q>input stream</q>, <q>read-once input</q>, and <q>bounded memory</q> in your own words? When Edmonds names regular languages, connect that phrase to languages recognized by DFAs.</p>
+    <p>For the next reading, we will use the memory idea to build a machine and justify its states. We have deliberately saved the book's first worked example for that next step.</p>
+  </subsection>
+</section>

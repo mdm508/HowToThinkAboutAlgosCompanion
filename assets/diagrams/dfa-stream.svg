@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 355" role="img" aria-labelledby="title desc">
+<title id="title">Reading a stream with a memory summary</title><desc id="desc">The prefix 101 has been read and cannot be reread. The next symbol is 0. A fixed memory box currently records that the last symbol was 1; the machine will update this summary when it reads 0.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#256b92"/></marker></defs>
+<rect width="800" height="355" rx="18" fill="#f4f7fb"/>
+<g font-family="system-ui,sans-serif"><text x="28" y="36" font-size="19" fill="#43586c">Already read</text><text x="364" y="36" font-size="19" fill="#15324f">Next</text><text x="580" y="36" font-size="19" fill="#43586c">Still to come</text></g>
+<g stroke="#718397" stroke-width="2"><rect x="30" y="54" width="72" height="70" rx="8" fill="#e3e8ee"/><rect x="112" y="54" width="72" height="70" rx="8" fill="#e3e8ee"/><rect x="194" y="54" width="72" height="70" rx="8" fill="#e3e8ee"/><rect x="350" y="54" width="72" height="70" rx="8" fill="#deeffb" stroke="#256b92" stroke-width="3"/><rect x="590" y="54" width="72" height="70" rx="8" fill="white"/></g>
+<g font-family="monospace" font-size="35" text-anchor="middle"><text x="66" y="100" fill="#617082">1</text><text x="148" y="100" fill="#617082">0</text><text x="230" y="100" fill="#617082">1</text><text x="386" y="100" fill="#15324f">0</text><text x="626" y="100" fill="#15324f">1</text></g>
+<g font-family="system-ui,sans-serif" font-size="17" fill="#43586c"><text x="30" y="155">Cannot be reread</text><text x="315" y="183">Read, then update</text></g>
+<path d="M386,127 L386,153 M386,190 L386,219" fill="none" stroke="#256b92" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="180" y="232" width="440" height="92" rx="16" fill="#d9efe9" stroke="#236e60" stroke-width="2"/>
+<g font-family="system-ui,sans-serif" text-anchor="middle" fill="#154f45"><text x="400" y="266" font-size="20" font-weight="600">Memory summary, before reading 0</text><text x="400" y="298" font-size="22">The prefix ends in 1: yes</text></g></svg>

@@ -1,14 +1,14 @@
 # Thinking About Algorithms — interactive companion
 
-A PreTeXt book for Runestone, built around short investigations accompanying Jeff Edmonds's *How to Think About Algorithms*. The first lesson is a complete draft about finding a maximum using a loop invariant. It includes three multiple-choice checkpoints with feedback, an editable Python ActiveCode program, and two explanation/transfer exercises.
+A PreTeXt book for Runestone, built around short investigations accompanying Jeff Edmonds's *How to Think About Algorithms*. The high-school reading companion begins with section 2.2, page 35: alphabets, strings, languages, notation, and finite memory. It includes two SVG diagrams, two matching activities, five multiple-choice/select-all checks, and a written-response prompt. The earlier maximum-finding draft is retained.
 
 ## Edit in VS Code
 
 The initial local checkout is `/Users/m/Developer/HowToThinkAboutAlgosCompanion`.
 
-1. Edit `source/lesson-01-maximum.ptx` for lesson text and activities.
+1. Edit `source/lesson-02-dfa-opening.ptx` for the current DFA lesson draft.
 2. Press **Cmd+Shift+B** to build the web preview.
-3. Choose **Terminal → Run Task → Book: preview (build first)** to serve it locally. The lesson is at `http://localhost:8765/output/web/finding-a-maximum.html`.
+3. Choose **Terminal → Run Task → Book: preview (build first)** to serve it locally. The lesson is at `http://localhost:8765/output/web/dfa-opening.html`.
 4. After edits, build again, then refresh the preview. Saving XML alone does not update the HTML.
 
 The PreTeXt and Live Preview extensions are recommended in `.vscode/extensions.json`. Local VS Code settings select `.venv/bin/python`. Portable build, validation and preview tasks are tracked in `.vscode/tasks.json`.
@@ -32,7 +32,9 @@ For the PreTeXt extension, select this environment through `pretext-tools.python
 | File | Purpose |
 | --- | --- |
 | `source/main.ptx` | Book structure and introduction |
-| `source/lesson-01-maximum.ptx` | First lesson: text, questions, feedback and runnable code |
+| `source/lesson-02-dfa-opening.ptx` | High-school introduction accompanying section 2.2, page 35 |
+| `assets/diagrams/` | Editable SVG figures for the DFA lesson |
+| `source/lesson-01-maximum.ptx` | Earlier maximum-finding draft and runnable code |
 | `source/docinfo.ptx` | Book identifier and catalogue description |
 | `publication/publication.ptx` | Ordinary HTML preview settings |
 | `publication/runestone.ptx` | Runestone-specific settings |

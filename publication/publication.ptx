@@ -4,7 +4,7 @@
     <chunking level="2" />
     <exercise-inline statement="yes" hint="yes" answer="no" solution="yes" />
   </common>
-  <html>
+  <html short-answer-responses="always">
     <css theme="default-modern" />
     <index-page ref="start-here" />
   </html>

@@ -10,7 +10,7 @@
       <preface xml:id="start-here">
         <title>Start here</title>
         <p>Design an algorithm, explain why it works, and try to break your explanation. This companion adds short investigations and executable examples to your reading of Jeff Edmonds's <pubtitle>How to Think About Algorithms</pubtitle>.</p>
-        <p>Begin with <xref ref="finding-a-maximum" />. You will use a familiar problem to learn what a loop invariant promises and how that promise helps you design code.</p>
+        <p>For the high-school reading companion, begin with <xref ref="dfa-opening" />, which scaffolds section 2.2, page 35. The earlier draft, <xref ref="finding-a-maximum" />, explores loop-invariant design through a familiar problem.</p>
         <p>Read a question and commit to a prediction before checking the feedback or running the program. You can work alone or compare explanations with a partner.</p>
         <p>This is an independent companion. The explanations and activities here are newly written; the original book and lectures remain the primary references.</p>
       </preface>
@@ -21,6 +21,11 @@
         <p>A long execution can be hard to follow. Instead, describe what one iteration must preserve. We will start with finding a maximum and then use the same reasoning on a different problem.</p>
       </introduction>
       <xi:include href="lesson-01-maximum.ptx" />
+    </chapter>
+    <chapter xml:id="reading-dfas" label="reading-dfas">
+      <title>Reading companion: deterministic finite automata</title>
+      <introduction><p>These activities unpack the vocabulary in section 2.2 of Edmonds's book. Each lesson identifies the passage it accompanies so you can move between the companion and the original reading.</p></introduction>
+      <xi:include href="lesson-02-dfa-opening.ptx" />
     </chapter>
   </book>
 </pretext>

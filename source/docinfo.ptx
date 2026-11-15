@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <docinfo>
   <document-id>edmondscompanion</document-id>
+  <directories external="../assets" />
   <blurb shelf="Computer Science">Short investigations in algorithm design, loop invariants, and explaining why programs work. An independent companion to Jeff Edmonds's How to Think About Algorithms.</blurb>
 </docinfo>

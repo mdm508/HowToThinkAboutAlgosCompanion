@@ -16,17 +16,31 @@
   <subsection xml:id="dfa-symbols" label="dfa-symbols">
     <title>Start with the symbols</title>
     <p>Imagine a machine that reads a message one character at a time. Before deciding what it should do, we need to say which symbols may appear.</p>
-    <p>You already know one alphabet: the English letters. We can list its lowercase letters inside braces:</p>
+    <p>Start with a familiar collection: the 26 lowercase letters used to write English. We can choose them as our allowed symbols and write:</p>
     <p><md number="no">\Sigma = \{a,b,c,\ldots,z\}.</md></p>
-    <p>The braces mean <q>the set containing these items.</q> The dots stand for the intervening letters. The Greek letter <m>\Sigma</m> (pronounced <q>sigma</q>) is a name for this set. An <em>alphabet</em> is a finite set of allowed symbols. It need not be a human language's alphabet.</p>
-    <exercise xml:id="dfa-match-alphabets" label="dfa-match-alphabets">
+    <p>An <em>alphabet</em> is a finite set of allowed symbols. We choose which symbols to include: letters, digits, emoji, or other marks can all serve as symbols.</p>
+    <paragraphs xml:id="dfa-notation-key">
+      <title>Notation breakdown</title>
+      <tabular width="100%">
+        <col width="24%" /><col width="76%" />
+        <row header="yes"><cell>Notation</cell><cell>How to read it</cell></row>
+        <row><cell><m>\Sigma</m> (sigma)</cell><cell>A name for our chosen alphabet: the set of allowed symbols.</cell></row>
+        <row><cell><m>\{a,b\}</m></cell><cell>The set containing a and b. Braces enclose the members of a set.</cell></row>
+        <row><cell><m>\in</m></cell><cell><q>Is a member of.</q> For example, <m>a\in\{a,b\}</m> says that a belongs to this set.</cell></row>
+        <row><cell><m>\ldots</m></cell><cell>Continue the indicated pattern. Here, the dots stand for the letters between c and z.</cell></row>
+        <row><cell><m>\varepsilon</m> (epsilon)</cell><cell>The empty string: a sequence with no symbols. We will use it below.</cell></row>
+      </tabular>
+    </paragraphs>
+    <p>Our alphabet need not resemble the one in a spelling lesson. We could choose three Ogham letters, <c>{ᚁ, ᚂ, ᚃ}</c>, or three fire-themed emoji, <c>{🔥, 🧯, 🚒}</c>. For the emoji example, treat each pictured icon as one symbol.</p>
+    <exercise xml:id="dfa-match-alphabets" label="dfa-match-symbol-sets">
       <title>Match the alphabet to its description</title>
       <statement><p>Pair each set with the symbols it allows.</p></statement>
       <feedback><p>Read the items inside the braces. The braces group allowed symbols; they do not prescribe the order in which a message must use them.</p></feedback>
       <cardsort>
-        <match><premise order="2"><m>\{a,b,c,\ldots,z\}</m></premise><response order="3">The 26 lowercase English letters</response></match>
-        <match><premise order="3"><m>\{a,b\}</m></premise><response order="1">Only the letters a and b</response></match>
-        <match><premise order="1"><m>\{0,1\}</m></premise><response order="2">Only the symbols 0 and 1</response></match>
+        <match><premise order="2"><m>\{a,b,c,\ldots,z\}</m></premise><response order="3">The 26 lowercase letters used to write English</response></match>
+        <match><premise order="4"><c>{ᚁ, ᚂ, ᚃ}</c></premise><response order="1">These three Ogham letters</response></match>
+        <match><premise order="1"><c>{🔥, 🧯, 🚒}</c></premise><response order="4">A flame, a fire extinguisher, and a fire engine</response></match>
+        <match><premise order="3"><m>\{0,1\}</m></premise><response order="2">Only the symbols 0 and 1</response></match>
       </cardsort>
     </exercise>
     <p>A <em>string</em> is a finite sequence of symbols. A string is <em>over an alphabet</em> when every symbol it contains belongs to that alphabet. Over <m>\{a,b\}</m>, the strings <c>a</c>, <c>abba</c>, and <c>bbb</c> are all allowed. You may repeat symbols, and you do not have to use every symbol in the alphabet. Order matters: <c>ab</c> and <c>ba</c> are different strings.</p>
